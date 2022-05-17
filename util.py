@@ -1,8 +1,14 @@
 import numpy as np
 
-def generate_random_indices(rows, cols):
+def convertKey(key):
+    key=float(key)
+    while int(key)>0:
+        key/=10
+    return key
+
+def generate_random_indices(rows, cols,key):
     r = 3.94  # growth rate value for chaotic behaviour
-    xN = KEY  # seed 
+    xN = key  # seed 
     seqMap = []
 
     for i in range(rows):
@@ -14,18 +20,18 @@ def generate_random_indices(rows, cols):
 
     return seqMap
 
-def confusion(image):
+def confusion(image,key):
     confused_img = np.array(image)
     (rows, cols) = image.shape
-    x = generate_random_indices(rows, cols)
+    x = generate_random_indices(rows, cols, convertKey(key))
     for r in range(rows):
         for c in range(cols):
             confused_img[r, c], confused_img[r, x[r][c]] = confused_img[r, x[r][c]], confused_img[r, c]
     return confused_img
 
-def generate_random_seq(rows, cols):
+def generate_random_seq(rows, cols,key):
     r = 3.94  # growth rate for chaotic behaviour
-    xN = KEY  # seed
+    xN = key  # seed
     max = 1e6
     seqMap = []
 
@@ -40,10 +46,10 @@ def generate_random_seq(rows, cols):
         seqMap.append(list)
     return seqMap
 
-def diffusion(image):
+def diffusion(image,key):
     diffused_img = np.array(image)
     (rows, cols) = image.shape
-    x = generate_random_seq(rows, cols)
+    x = generate_random_seq(rows, cols,convertKey(key))
     for r in range(rows):
         for c in range(cols):
             diffused_img[r, c] = diffused_img[r, c] ^ x[r][c]

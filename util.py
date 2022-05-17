@@ -54,3 +54,27 @@ def diffusion(image,key):
         for c in range(cols):
             diffused_img[r, c] = diffused_img[r, c] ^ x[r][c]
     return diffused_img
+
+def decrypt_diffusion(image,key):
+    # reverse diffusion
+    (rows, cols) = image.shape
+    x = generate_random_seq(rows, cols,convertKey(key))
+    for r in range(rows):
+        for c in range(cols):
+            image[r, c] = image[r, c] ^ x[r][c]
+    return image
+
+def decrypt_confusion(image,key):
+    # reverse confusion
+    (rows, cols) = image.shape
+    x = generate_random_indices(rows, cols,convertKey(key))
+    for r in range(rows-1, -1, -1):
+        for c in range(cols-1, -1, -1):
+            image[r, c], image[r, x[r][c]] = image[r, x[r][c]], image[r, c]
+    return image
+
+def decrypt(image,key):
+    decrypted_image = np.array(image)
+    decrypted_image = decrypt_diffusion(decrypted_image,key)
+    decrypted_image = decrypt_confusion(decrypted_image,key)
+    return decrypted_image

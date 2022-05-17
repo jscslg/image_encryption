@@ -47,7 +47,11 @@ def decrypt():
 
             # get key value
             key = key_entry.get()
+            
+            decrypted_img = util.decrypt(img,key)
 
+            decrypted_image_name = filename.split('.')[0] + '_decrypted.' + filename.split('.')[1]
+            cv2.imwrite(decrypted_image_name, decrypted_img)
 
     else:
         # create messagebox

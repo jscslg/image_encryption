@@ -7,6 +7,7 @@ def convertKey(key):
     return key
 
 def generate_random_indices(rows, cols,key):
+
     r = 3.94  # growth rate value for chaotic behaviour
     xN = key  # seed 
     seqMap = []
@@ -38,10 +39,7 @@ def generate_random_seq(rows, cols,key):
     for i in range(rows):
         list = []
         for j in range(cols):
-            #bitlist = []
-            #for k in range(8):
             xN = r * xN * (1 - xN)
-            #bitlist.append(0 if xN < 0.5 else 1)
             list.append(int((xN*max) % 256))
         seqMap.append(list)
     return seqMap
